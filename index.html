@@ -1,36 +1,95 @@
 <!DOCTYPE html>
 <html>
   <head>
+
+    <!-- JQuery -->
+    <script src="scripts/jquery-1.11.2.min.js"></script>
+
+    <!-- React stuff -->
     <script src="scripts/react.js"></script>
     <script src="scripts/JSXTransformer.js"></script>
+
+    <!-- Semantic UI stuff -->
+    <script src="scripts/semantic.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/semantic.min.css"/>
+
   </head>
-  <body>
-    <div id="example"></div>
+  <body class="ui page grid" style="height:100%;">
+    <div class="column">
 
-    <script type="text/jsx">
-        var CommentBox = React.createClass({
-            getInitialState: function() {
-              return {value: 'Hello!'};
-            },
-            handleChange: function(event) {
-              this.setState({value: event.target.value});
-            },
-            render: function() {
-              var value = this.state.value;
-              return (
-                <div>
-                  <input type="text" name="placeholder_text" value="" placeholder="Placeholder Title" onChange={this.handleChange} /><br/>
-                  <input type="text" name="input_field" placeholder={value}/>
-                </div>
-              );// End return
-            }// End render
-        });// End class
+        <div id="example"></div>
 
-        React.render(
-          <CommentBox/>,
-          document.getElementById('example')
-        );
-    </script>
+        <script type="text/jsx">
 
+            var TextInputBox = React.createClass({
+              getInitialState: function() {
+                return {value: 'Hello!'};
+                return {checkboxDisplay: 'block' };
+              },
+              handleChange: function(event) {
+                this.setState({value: event.target.value});
+              },
+              handleCheckbox: function(event) {
+                this.setState({checkboxDisplay: (event.target.checked ? 'block':'none')});
+              },
+              render: function() {
+                var value = this.state.value;
+                var checkboxDisplay = this.state.checkboxDisplay;
+
+                return (
+                  <div className="ui segment grid">
+                        <div className ="five wide column">
+                          <div className="ui form">
+                            {/* Settings */}
+                            <label className="ui medium header">Field settings</label>
+                            <br/><br/>
+                            <div className="field">
+                              <label>Field title:</label>
+                              <input className="ui input" type="text" placeholder="Hello" onChange={this.handleChange} /><br/>
+                            </div>
+                            <div className="ui checkbox">
+                              <label htmlFor="distinct-label">Use distinct label</label>
+                              <input className="ui input" type="checkbox" id="distinct-label" name="vehicle" value="Bike" onChange={this.handleCheckbox}/>
+                            </div><br/><br/>
+                            <a className="ui primary button">
+                              Add field
+                            </a>
+
+                            <br/><br/>
+                            {/* Preview pane */}
+                            <h3 className="ui header small">Field Preview</h3>
+                            <div className="ui secondary segment">
+                              <div className="field">
+                                <label style={{display: checkboxDisplay }}>{value}</label>
+                                <input type="text" placeholder={value} />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className ="eleven wide column preview">
+                          <h2 className="ui header medium">Form Preview</h2>
+                        </div>
+                  </div>
+
+                );//End return
+              }//End render
+            });//End component
+
+
+            React.render(
+              <TextInputBox/>,
+              document.getElementById('example')
+            );
+
+            $(document).ready(function($){
+              //Enable all checkboxes
+              $('.ui.checkbox').checkbox();
+            });
+        </script>
+
+    </div>
   </body>
 </html>
