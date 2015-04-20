@@ -13,6 +13,7 @@
     <script src="scripts/semantic.min.js"></script>
 
     <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
     <link rel="stylesheet" type="text/css" href="css/semantic.min.css"/>
 
   </head>
@@ -23,7 +24,32 @@
 
         <script type="text/jsx">
 
-            var TextInputBox = React.createClass({
+            var PreviewPane = React.createClass({
+              getInitialState: function() {
+                return {value: 'Hello!'};
+                return {checkboxDisplay: 'block' };
+              },
+              render: function() {
+                var value = this.state.value;
+                var checkboxDisplay = this.state.checkboxDisplay;
+                        return (
+                          <div className ="nine wide column preview">
+                            <h2 className="ui header medium">Form Preview</h2>
+                            <div className="ui secondary segment">
+                              <div className="ui form">
+                                <div className="field">
+                                  <label style={{display: checkboxDisplay }}>{value}</label>
+                                  <input type="text" placeholder={value} disabled/>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        ); //end return
+                      }//end function
+            });//end component
+
+            var FormEditor = React.createClass({
               getInitialState: function() {
                 return {value: 'Hello!'};
                 return {checkboxDisplay: 'block' };
@@ -38,55 +64,63 @@
                 var value = this.state.value;
                 var checkboxDisplay = this.state.checkboxDisplay;
 
-                return (
-                  <div className="ui segment grid">
-                        <div className ="five wide column">
-                          <div className="ui form">
-                            {/* Settings */}
-                            <label className="ui medium header">Field settings</label>
-                            <br/><br/>
-                            <div className="field">
-                              <label>Field title:</label>
-                              <input className="ui input" type="text" placeholder="Hello" onChange={this.handleChange} /><br/>
-                            </div>
-                            <div className="ui checkbox">
-                              <label htmlFor="distinct-label">Use distinct label</label>
-                              <input className="ui input" type="checkbox" id="distinct-label" name="vehicle" value="Bike" onChange={this.handleCheckbox}/>
-                            </div><br/><br/>
-                            <a className="ui primary button">
-                              Add field
-                            </a>
+                        return (
+                          <div className="ui segment grid">
+                                <div className ="seven wide column">
+                                  <div className="ui form">
+                                    {/* Settings */}
+                                    <label className="ui medium header">Field settings</label>
+                                    <br/><br/>
 
-                            <br/><br/>
-                            {/* Preview pane */}
-                            <h3 className="ui header small">Field Preview</h3>
-                            <div className="ui secondary segment">
-                              <div className="field">
-                                <label style={{display: checkboxDisplay }}>{value}</label>
-                                <input type="text" placeholder={value} />
-                              </div>
-                            </div>
+                                    <div className="inline field">
+                                      <label>Field title:</label>
+                                      <input className="ui input" type="text" placeholder="Title" onChange={this.handleChange} /><br/>
+                                    </div>
+
+                                    <div className="inline field">
+                                      <label className="six wide">Field description:</label>
+                                      <input className="ui input" type="text" placeholder="Description" onChange={this.handleChange} /><br/>
+                                    </div>
+
+                                    <div className="inline field">
+                                      <label>Field type:</label>
+                                      <select className="ui dropdown">
+                                        <option value="">Select</option>
+                                        <option value="1">Text</option>
+                                        <option value="0">Boolean</option>
+                                      </select>
+                                    </div>
+
+                                    {/*
+                                    <div className="ui checkbox">
+                                      <label htmlFor="distinct-label">Use distinct label</label>
+                                      <input className="ui input" type="checkbox" id="distinct-label" name="vehicle" value="Bike" onChange={this.handleCheckbox}/>
+                                    </div>
+                                    */}
+
+                                    <a className="ui primary button">
+                                      Add field
+                                    </a>
+                                  </div>
+                                </div>
+
+                                <PreviewPane/>
+
                           </div>
-                        </div>
 
-                        <div className ="eleven wide column preview">
-                          <h2 className="ui header medium">Form Preview</h2>
-                        </div>
-                  </div>
-
-                );//End return
+                        );//End return
               }//End render
             });//End component
 
 
             React.render(
-              <TextInputBox/>,
+              <FormEditor/>,
               document.getElementById('example')
             );
 
             $(document).ready(function($){
               //Enable all checkboxes
-              $('.ui.checkbox').checkbox();
+              $('.ui.dropdown').dropdown();
             });
         </script>
 
