@@ -1,7 +1,12 @@
 TextField = React.createClass
+	getInitialState: ->
+		return { value: 'Hello!', checkboxDisplay: 'block' }
 	render: ->
-
+			value = @state.value
 			<div className="field">
+				<div className="ui tiny icon buttons">
+				  <div className="ui button"><i className="delete icon"></i></div>
+				</div>
 				<label>{value}</label>
 				<input type="text" placeholder={value} disabled/>
 			</div>
@@ -10,7 +15,6 @@ SelectFieldType = React.createClass
 	componentDidMount: ->
 		$(".ui.dropdown").dropdown()
 		null
-
 	render: ->
 
     <div className="inline field">
@@ -23,67 +27,63 @@ SelectFieldType = React.createClass
     </div>
 
 PreviewPane = React.createClass
-  getInitialState: ->
-    return { value: 'Hello!', checkboxDisplay: 'block' }
   render: ->
-    value = @state.value
-    checkboxDisplay = @state.checkboxDisplay
-
-	  <div className ="nine wide column preview">
-			<h2 className="ui header medium">Form Preview</h2>
-			<div className="ui secondary segment">
-				<div className="ui form">
-					<TextField/>
-				</div>
-			</div>
-		</div>
+	  return 	<div className ="nine wide column preview">
+							<h2 className="ui header medium">Form Preview</h2>
+							<div className="ui secondary segment">
+								<div className="ui form">
+									<TextField/>
+								</div>
+							</div>
+						</div>
 
 
 FormEditor = React.createClass
-  getInitialState: ->
-    { value: 'Hello!', checkboxDisplay: 'block' }
+	getInitialState: ->
+	  { value: 'Hello!', checkboxDisplay: 'block' }
+	handleChange: (event) ->
+	  @setState value: event.target.value
+	  return
+	handleCheckbox: (event) ->
+	  @setState checkboxDisplay: if event.target.checked then 'block' else 'none'
+	  return
+	render: ->
+		value = @state.value
+		checkboxDisplay = @state.checkboxDisplay
+		return 	<div className="ui segment grid">
+							<div className ="seven wide column">
 
-  handleChange: (event) ->
-    @setState value: event.target.value
-    return
+								<div className="ui form">
+									<label className="ui medium header">Field settings</label>
+									<br/><br/>
 
-  handleCheckbox: (event) ->
-    @setState checkboxDisplay: if event.target.checked then 'block' else 'none'
-    return
-		
-  render: ->
-    value = @state.value
-    checkboxDisplay = @state.checkboxDisplay
+									<div className="inline field">
+										<label>Field title:</label>
+										<input className="ui input" type="text" placeholder="Title" onChange={this.handleChange} /><br/>
+									</div>
 
-    <div className="ui segment grid">
-					<div className ="seven wide column">
-						<div className="ui form">
+									<div className="inline field">
+										<label className="six wide">Field description:</label>
+										<input className="ui input" type="text" placeholder="Description" onChange={this.handleChange} /><br/>
+									</div>
 
-							<label className="ui medium header">Field settings</label>
-							<br/><br/>
+									<SelectFieldType/>
 
-							<div className="inline field">
-								<label>Field title:</label>
-								<input className="ui input" type="text" placeholder="Title" onChange={this.handleChange} /><br/>
+									<a className="ui primary button">
+										Add field
+									</a>
+
+								</div>
+
 							</div>
+							<div className ="seven wide column">
 
-							<div className="inline field">
-								<label className="six wide">Field description:</label>
-								<input className="ui input" type="text" placeholder="Description" onChange={this.handleChange} /><br/>
+									<PreviewPane/>
+
 							</div>
-
-							<SelectFieldType/>
-
-							<a className="ui primary button">
-								Add field
-							</a>
 						</div>
-					</div>
-					<PreviewPane/>
-		</div>
 
-
-	React.render(
-		<FormEditor/>,
-		document.getElementById('example')
-	)
+React.render(
+	<FormEditor/>,
+	document.getElementById('example')
+)

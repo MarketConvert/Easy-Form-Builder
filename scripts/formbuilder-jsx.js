@@ -3,10 +3,24 @@
   var FormEditor, PreviewPane, SelectFieldType, TextField;
 
   TextField = React.createClass({
+    getInitialState: function() {
+      return {
+        value: 'Hello!',
+        checkboxDisplay: 'block'
+      };
+    },
     render: function() {
+      var value;
+      value = this.state.value;
       return React.createElement("div", {
         "className": "field"
-      }, React.createElement("label", null, value), React.createElement("input", {
+      }, React.createElement("div", {
+        "className": "ui tiny icon buttons"
+      }, React.createElement("div", {
+        "className": "ui button"
+      }, React.createElement("i", {
+        "className": "delete icon"
+      }))), React.createElement("label", null, value), React.createElement("input", {
         "type": "text",
         "placeholder": value,
         "disabled": true
@@ -35,26 +49,18 @@
   });
 
   PreviewPane = React.createClass({
-    getInitialState: function() {
-      return {
-        value: 'Hello!',
-        checkboxDisplay: 'block'
-      };
-    },
     render: function() {
-      var checkboxDisplay, value;
-      value = this.state.value;
-      return checkboxDisplay = this.state.checkboxDisplay;
+      return React.createElement("div", {
+        "className": "nine wide column preview"
+      }, React.createElement("h2", {
+        "className": "ui header medium"
+      }, "Form Preview"), React.createElement("div", {
+        "className": "ui secondary segment"
+      }, React.createElement("div", {
+        "className": "ui form"
+      }, React.createElement(TextField, null))));
     }
-  }, React.createElement("div", {
-    "className": "nine wide column preview"
-  }, React.createElement("h2", {
-    "className": "ui header medium"
-  }, "Form Preview"), React.createElement("div", {
-    "className": "ui secondary segment"
-  }, React.createElement("div", {
-    "className": "ui form"
-  }, React.createElement(TextField, null)))));
+  });
 
   FormEditor = React.createClass({
     getInitialState: function() {
@@ -103,7 +109,9 @@
         "onChange": this.handleChange
       }), React.createElement("br", null)), React.createElement(SelectFieldType, null), React.createElement("a", {
         "className": "ui primary button"
-      }, "\t\t\t\t\t\t\t\tAdd field"))), React.createElement(PreviewPane, null));
+      }, "\t\t\t\t\t\t\t\t\t\tAdd field"))), React.createElement("div", {
+        "className": "seven wide column"
+      }, React.createElement(PreviewPane, null)));
     }
   });
 
